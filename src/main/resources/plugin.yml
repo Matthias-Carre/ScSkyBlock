@@ -1,0 +1,14 @@
+name: Scplugin
+version: '${project.version}'
+main: monplugin.monplugin.Scplugin
+api-version: '1.20'
+commands:
+  defi:
+    description: ouvre le menu des defis
+    usage: /defi
+  biome:
+    description: ouvre le menu des biomes
+    usage: /biome
+  test:
+    description: frerot lit le nom
+    usage: /test

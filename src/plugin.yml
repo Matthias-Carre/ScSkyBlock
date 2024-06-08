@@ -1,0 +1,3 @@
+main: monplugin.monplugin.Scplugin
+name: ScPlugin
+version: 1
