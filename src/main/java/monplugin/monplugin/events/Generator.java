@@ -7,56 +7,34 @@ import org.bukkit.block.data.Waterlogged;
 import org.bukkit.event.Listener;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+
+import java.util.HashMap;
 
 public class Generator implements Listener {
 
+    HashMap<Material, Integer> probaGenerator = new HashMap<>();
+    int[] proba;
+
     @EventHandler
-    public void onFromTo(BlockFromToEvent event) {
-
-        Material type = event.getBlock().getType();
-
-        //System.out.println(event.getBlock().getBlockData() instanceof Waterlogged);
-        /*Test pour les géné avec waterloged
-        if(event.getBlock().getBlockData() instanceof Waterlogged) { //Check for waterlogged block
-            type=Material.WATER;
-            System.out.println("waterlog");
+    public void onBlockForm(BlockFormEvent event) {
+        Block block = event.getBlock();
+        if(event.getNewState().getType() == Material.COBBLESTONE){
+            System.out.println("onBlockForm: Cobbel générer");
+            event.setCancelled(true);
+            block.setType(Material.IRON_BLOCK);
         }
-        */
-
-        if (type == Material.WATER || type == Material.LEGACY_WATER || type == Material.LAVA || type == Material.LEGACY_LAVA) {
-            Block b = event.getToBlock();
-            if (b.getType() == Material.AIR) {
-                if (generatesCobble(type, b)) {
-
-                    event.setCancelled(true);
-                    b.setType(Material.IRON_BLOCK);
-                    /* DO WHATEVER YOU NEED WITH THE COBBLE */
-                    //event.setCancelled(true);
-                }
-            }
+        if(event.getNewState().getType() == Material.BASALT){
+            System.out.println("onBlockForm: Basalt");
+            event.setCancelled(true);
+            block.setType(Material.IRON_BLOCK);
         }
     }
 
-    private final BlockFace[] faces = new BlockFace[]{
-            BlockFace.SELF,
-            BlockFace.UP,
-            BlockFace.DOWN,
-            BlockFace.NORTH,
-            BlockFace.EAST,
-            BlockFace.SOUTH,
-            BlockFace.WEST
-    };
 
-    public boolean generatesCobble(Material type, Block b) {
-        Material mirrorID1 = (type == Material.WATER || type == Material.LEGACY_WATER ? Material.LAVA : Material.WATER);
-        Material mirrorID2 = (type == Material.WATER || type == Material.LEGACY_WATER ? Material.LEGACY_LAVA : Material.LEGACY_WATER);
-        for (BlockFace face : faces) {
-            Block r = b.getRelative(face, 1);
-            if (r.getType() == mirrorID1 || r.getType() == mirrorID2) {
-                return true;
-            }
-        }
-        return false;
+    public void setProba(){
+
     }
 }
